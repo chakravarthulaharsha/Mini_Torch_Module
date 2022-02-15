@@ -43,10 +43,15 @@ class Module:
 
         def recursor(module_obj, key_name=None):
             for sub_module_name, sub_module in module_obj._modules.items():
-                named_param_key = f"{key_name}.{sub_module_name}" if key_name else f"{sub_module_name}"
+                named_param_key = (
+                    f"{key_name}.{sub_module_name}"
+                    if key_name
+                    else f"{sub_module_name}"
+                )
                 for param_name, param_val in sub_module._parameters.items():
                     named_param_dict[f"{named_param_key}.{param_name}"] = param_val
                 recursor(sub_module, named_param_key)
+
         recursor(self)
         return named_param_dict
 
